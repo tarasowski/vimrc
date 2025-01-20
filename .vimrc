@@ -1,13 +1,7 @@
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
 call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+" Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'voldikss/vim-floaterm'
 " highlights end of blocks
@@ -18,6 +12,18 @@ Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'evanleck/vim-svelte', {'branch': 'main'}
 call plug#end()
+
+" Clear existing highlights
+highlight clear Pmenu
+highlight clear PmenuSel
+highlight clear PmenuSbar
+highlight clear PmenuThumb
+
+" Set new highlights
+highlight Pmenu ctermbg=236 ctermfg=255  " Dark grey background, white text
+highlight PmenuSel ctermbg=33 ctermfg=255  " Blue background, white text
+highlight PmenuSbar ctermbg=236  " Dark grey scrollbar
+highlight PmenuThumb ctermbg=248  " Light grey scrollbar thumb
 
 " doesn't wrap the lines it shows the lines fully
 set nowrap
@@ -107,13 +113,14 @@ autocmd VimEnter * call SetupThreePaneLayout()
 tnoremap <Esc> <C-\><C-n>
 
 " Toggle terminal with <leader>t
+let g:floaterm_shell = "bash"
 nnoremap <leader>t :FloatermToggle<CR>
 
 
 " Set the colorscheme
 augroup ReloadColorscheme
-    autocmd!
-    autocmd VimEnter * colorscheme catppuccin-mocha
+    "autocmd!
+    "autocmd VimEnter * colorscheme catppuccin-mocha
 augroup END
 
 " Activate mouse support
@@ -163,7 +170,7 @@ set number
 set smartindent
 
 " Yank to clipboard
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 " set highlight when you perform a search
 set incsearch
